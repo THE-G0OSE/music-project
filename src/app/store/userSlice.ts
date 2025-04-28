@@ -1,13 +1,16 @@
 import { create } from "zustand";
+import { userMock } from "../../shared/mocks/userMock";
 
 type User = {
-  username: string | null;
+  username: string;
+  image: string;
   liked: string[];
   playlists: string[];
+  music: string[];
 };
 
 interface IUserSlice {
-  user: User;
+  user: User | null;
   setUser: (user: User) => void;
   resetUser: () => void;
   addLiked: (id: string) => void;
@@ -17,53 +20,42 @@ interface IUserSlice {
 }
 
 export const userSlice = create<IUserSlice>((set) => ({
-  user: {
-    username: null,
-    liked: [],
-    playlists: [],
-  },
+  user: null,
   setUser: (user) => {
     set(() => ({
-      user: {
-        username: user.username,
-        liked: user.liked,
-        playlists: user.playlists,
-      },
+      user: user
     }));
   },
   resetUser: () => {
-    set({user: {
-        username: null,
-        liked: [],
-        playlists: [],
-    }})
+    set({user: null
+    })
   },
   addLiked: (id) => {
     set((state) => ({
-      user: { ...state.user, liked: [...state.user.liked, id] },
+      user: { ...state.user!, liked: [...state.user!.liked, id] },
     }));
   },
   removeLiked: (id) => {
     set((state) => ({
       user: {
-        ...state.user,
-        liked: state.user.liked.filter((like) => like != id),
+        ...state.user!,
+        liked: state.user!.liked.filter((like) => like != id),
       },
     }));
   },
   addPlaylist: (id) => {
     set((state) => ({
         user: {
-            ...state.user,
-            playlists: [...state.user.playlists, id]
+            ...state.user!,
+            playlists: [...state.user!.playlists, id]
         }
     }))
   },
   removePlaylist: (id) => {
     set((state) => ({
         user: {
-            ...state.user,
-            playlists: state.user.playlists.filter((list) => list != id)
+            ...state.user!,
+            playlists: state.user!.playlists.filter((list) => list != id)
         }
     }) )
   }
