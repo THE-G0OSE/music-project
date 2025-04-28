@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { userMock } from "../../shared/mocks/userMock";
 
 type User = {
   username: string;
