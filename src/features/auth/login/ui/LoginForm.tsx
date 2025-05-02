@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { userSlice, type User } from "../../../../app/store/userSlice";
 
 interface IProps {
   setAuthPhase: (arg: string) => void;
@@ -10,6 +11,9 @@ interface IForm {
 }
 
 export const LoginForm: React.FC<IProps> = ({ setAuthPhase }) => {
+
+  const userApi = userSlice()
+
   const {
     register,
     handleSubmit,
@@ -20,8 +24,38 @@ export const LoginForm: React.FC<IProps> = ({ setAuthPhase }) => {
     setAuthPhase("register");
   };
 
-  const submitHandler = (data: IForm) => {
-    console.log(data);
+  const submitHandler = async (data: IForm) => {
+    const response: User | Response | null = await fetch('http://localhost:3200/users/login', {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((res) => {
+      if (res.status === 401) {
+        alert('пароль или имя пользователя не верно')
+        return null
+      } else {
+        return res
+      }
+    })
+    let res : User | null
+    if (response){
+      res = await response.json()
+    } else {
+      res = null
+    }
+    if(res){
+    console.log(res.username, res.image, res.likes, res.music, res.playlists)
+    }
+
+    userApi.setUser(res ? {
+      username: res.username,
+      image: res.image,
+      likes: res.likes != null ? res.likes : [],
+      playlists: res.playlists != null ? res.playlists : [],
+      music: res.music != null ? res.music : [],
+    } : null)
   };
 
   return (

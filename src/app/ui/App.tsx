@@ -4,6 +4,7 @@ import { Home } from "../../pages/home/ui/Home"
 import { Library } from "../../pages/library/ui/Library"
 import { Profile } from "../../pages/profile/ui/Profile"
 import { MusicPage } from "../../pages/music/ui/MusicPage"
+import { Playlist } from "../../pages/playlist/ui/Playlist"
 
 export const App = () => {
   return (
@@ -20,6 +21,8 @@ export const App = () => {
           <Route path="/profile" element={<Profile/>}/>
 
           <Route path='/music/:musicId' element={<MusicPage/>}/>
+
+          <Route path='/playlist/:id' element={<Playlist/>}/>
 
         </Route>
 

@@ -5,11 +5,11 @@ export const Home = () => {
     <div>
       <h1 className='ml-8 text-green-500 text-[2rem] font-bold'>Исследуйте</h1>
       <h2 className='ml-8 font-bold text-[1.3rem] mt-5 mb-2'>Популярное сейчас</h2>
-      <MusicList/>
+      <MusicList type='popular' />
       <h2 className='ml-8 font-bold text-[1.3rem] mt-5 mb-2'>Для вас</h2>
-      <MusicList/>
+      <MusicList type='recomended'/>
       <h2 className='ml-8 font-bold text-[1.3rem] mt-5 mb-2'>Новинки</h2>
-      <MusicList/>
+      <MusicList type='new'/>
       <div className='h-40 md:h-24' />
     </div>
   )

@@ -1,15 +1,32 @@
-import { MusicCard } from "../../../entities/music/ui/MusicCard";
-import { playlistsMock } from "../../../shared/mocks/playlistsMock";
+import { useEffect, useState } from "react";
+import { PlaylistCard } from "../../../entities/music/PlaylistCar";
+import { userSlice } from "../../../app/store/userSlice";
 
 export const Playlists = () => {
+
+  const [playlists, setPlaylists] = useState([])
+  const {user} = userSlice()
+
+  useEffect(() => {
+    const fetchPlaylists = async () => {
+      const res = await fetch('http://localhost:3200/playlists/' + user!.username)
+      const body = await res.json()
+      if (!res.ok){
+        alert(body.error)
+      } else {
+        setPlaylists(body.playlists)
+      }
+    }
+    fetchPlaylists()
+  })
+
+
   return (
     <div className="h-60 w-[100vw] px-8 min-md:w-[calc(100vw-80px)] overflow-x-scroll">
       <div className='flex items-center gap-5 justify-start'>
-        {playlistsMock.map((music) => (
-          <MusicCard
-            title={music.title}
-            author={music.author}
-            image={music.image}
+        {playlists && playlists.map((playlist) => (
+          <PlaylistCard
+            playlist={playlist}
           />
         ))}
       </div>

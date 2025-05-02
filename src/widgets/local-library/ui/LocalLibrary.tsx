@@ -1,13 +1,23 @@
 import { BiPlus } from "react-icons/bi";
 import { MusicWideCard } from "../../../entities/music/ui/MusicWideCard";
-import { musicMock } from "../../../shared/mocks/musicMock";
 import { Playlists } from "../../playlists/ui/Playlists";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddModal } from "../../add-modal/ui/AddModal";
+import { musicSlice } from "../../../app/store/musicSlice";
+import { userSlice } from "../../../app/store/userSlice";
 
 export const LocalLibrary = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [type, setType] = useState<"music" | "playlist">("music");
+
+  const music = musicSlice();
+  const user = userSlice((state) => state.user);
+
+  useEffect(() => {
+    if (user) {
+      music.fetchMusic(user.username);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col gap-2 mt-2">
@@ -39,12 +49,12 @@ export const LocalLibrary = () => {
         </button>
       </div>
       <div className="flex flex-col gap-2 ml-8">
-        {musicMock.map((music) => (
-          <MusicWideCard {...music} />
-        ))}
+        {music.localMusic ? music.localMusic.map((music) => (
+          <MusicWideCard music={music} />
+        )) : <p className='text-[1.7rem] font-bold text-green-500'>Пока не загруженно ни одного трека</p>}
       </div>
       {isAddModalOpen && <AddModal setIsOpen={setIsAddModalOpen} type={type} />}
-      <div className='h-46 md:h-30' />
+      <div className="h-46 md:h-30" />
     </div>
   );
 };

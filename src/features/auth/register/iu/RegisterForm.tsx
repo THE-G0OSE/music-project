@@ -35,7 +35,20 @@ export const RegisterForm: React.FC<IProps> = ({ setAuthPhase }) => {
       });
     } else {
       clearErrors("passwordRep");
-      console.log(data);
+      fetch('http://localhost:3200/users', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: data.username,
+          password: data.password,
+        })
+      }).then((res) => {if (res.status !== 201) {
+        alert(res.statusText + ' \nвозможно имя пользователя уже занято')
+      } else {
+        setAuthPhase('login')
+      }})
     }
   };
 

@@ -1,21 +1,14 @@
-import { create } from 'zustand'
-import { musicMock } from '../../shared/mocks/musicMock';
-
-type music = {
-        image: string;
-        title: string;
-        author: string;
-        length: string;
-} | null
+import { create } from "zustand";
+import { IMusic } from "../../shared/mocks/musicMock";
 
 interface ISlice {
-    music: music;
-    setMusic: (music: music) => void
+  music: IMusic | null;
+  setMusic: (music: IMusic) => void;
 }
 
 export const currentMusicSlice = create<ISlice>((set) => ({
-    music: musicMock[0],
-    setMusic: (music) => {
-        set({music: music})
-    }
-}))
+  music: null,
+  setMusic: (music) => {
+    set({ music: music });
+  },
+}));
