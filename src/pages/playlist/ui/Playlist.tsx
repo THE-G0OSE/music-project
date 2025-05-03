@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IMusic } from "../../../shared/mocks/musicMock";
 import { useNavigate, useParams } from "react-router";
 import { MusicWideCard } from "../../../entities/music/ui/MusicWideCard";
