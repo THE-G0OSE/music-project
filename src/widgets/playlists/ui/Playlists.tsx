@@ -18,7 +18,7 @@ export const Playlists = () => {
       }
     };
     fetchPlaylists();
-  });
+  }, [user]);
 
   return (
     <div className="h-60 w-[100vw] px-8 min-md:w-[calc(100vw-80px)] overflow-x-scroll">

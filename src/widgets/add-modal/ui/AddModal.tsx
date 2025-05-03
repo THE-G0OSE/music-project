@@ -25,7 +25,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
   const [musicName, setMusicName] = useState<string>("");
 
   const user = userSlice((state) => state.user);
-  const addMusic = userSlice((state) => state.addMusic);
+  const {addMusic, addPlaylist} = userSlice();
   const { fetchMusic, localMusic } = musicSlice();
   const [musicArr, setMusicArr] = useState<IMusic[]>([]);
   const musicSelectRef = useRef<HTMLSelectElement>(null);
@@ -97,6 +97,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
         }
       };
       postPlaylist();
+      addPlaylist('1')
       setIsOpen(false);
     }
   };

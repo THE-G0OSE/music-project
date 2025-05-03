@@ -17,7 +17,7 @@ export const LocalLibrary = () => {
     if (user) {
       music.fetchMusic(user.username);
     }
-  }, [user, music]);
+  }, [user]);
 
   return (
     <div className="flex flex-col gap-2 mt-2">

@@ -8,7 +8,7 @@ export const Player = () => {
   if (music) {
     return (
       <div className="fixed md:bottom-4 md:left-[3%] bottom-20 left-0 flex justify-center w-full h-20">
-        <div className="h-full relative pl-7 md:pl-14 gap-2 text-black w-[90%]bg-white border-green-500 border-2 rounded-full shadow-md shadow-black flex ">
+        <div className="h-full relative pl-7 md:pl-14 gap-2 text-black w-[90%] bg-white border-green-500 border-2 rounded-full shadow-md shadow-black flex ">
           <div className="h-20 w-20 stretch-0 -translate-y-6 overflow-hidden rounded-xl border-2 border-green-500 bottom-6">
             <img
               className="object-cover size-full"

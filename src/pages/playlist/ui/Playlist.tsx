@@ -78,9 +78,12 @@ export const Playlist = () => {
         <p className="text-[1.5rem] text-slate-400 font-bold">
           {playlist.author}
         </p>
-        {music.map((music) => (
-          <MusicWideCard key={music.ID} music={music} />
-        ))}
+        <div className='flex flex-col gap-5 items-center  w-full'>
+          {music.map((music) => (
+            <MusicWideCard key={music.ID} music={music} />
+          ))}
+        </div>
+        <div className="w-full h-[140px]  shrink-0"></div>
       </div>
     )
   );
