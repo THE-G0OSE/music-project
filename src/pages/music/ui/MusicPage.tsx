@@ -59,24 +59,22 @@ export const MusicPage = () => {
       isMounted = false;
     };
   }, [musicId, musicSl]);
+  const fetchComments = async (isMounted: boolean) => {
+    const res = await fetch("http://localhost:3200/comments/music/" + music!.ID);
+    const body = await res.json();
+    if (res.ok && isMounted) {
+      if (body.comments == null) {
+        setComments([]);
+      } else {
+        setComments(body.comments);
+      }
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
     if (music) {
-      const fetchComments = async () => {
-        const res = await fetch(
-          "http://localhost:3200/comments/music/" + music.ID
-        );
-        const body = await res.json();
-        if (res.ok && isMounted) {
-          if (body.comments == null) {
-            setComments([]);
-          } else {
-            setComments(body.comments);
-          }
-        }
-      };
-      fetchComments();
+      fetchComments(isMounted);
     }
     return () => {
       isMounted = false;
@@ -135,6 +133,19 @@ export const MusicPage = () => {
   const playButtonClickHandler = () => {
     currentMusic.setMusic(music!);
   };
+  const postComment = async (comment) => {
+    const res = await fetch("http://localhost:3200/comments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(comment),
+    });
+    const body = await res.json();
+    if (!res.ok) {
+      alert(body.error);
+    }
+  };
 
   const submitHandler = () => {
     const commentValue = commentRef.current!.value;
@@ -143,22 +154,10 @@ export const MusicPage = () => {
       username: user!.username,
       music_id: String(music!.ID),
     };
-    const postComment = async () => {
-      const res = await fetch('http://localhost:3200/comments', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(comment)
-      })
-      const body = await res.json()
-      if (!res.ok) {
-        alert(body.error)
-      }
-    }
-    postComment()
+    postComment(comment);
     console.log(comment);
     commentRef.current!.value = "";
+    setTimeout(() => fetchComments(true), 100)
   };
 
   if (loading)

@@ -51,6 +51,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
       ...musicArr,
       localMusic.find((music) => music.ID == musicSelectRef.current!.value)!,
     ]);
+    musicSelectRef.current!.value = 'nothing'
   };
 
   const submity = async (data: IForm) => {
@@ -95,6 +96,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
         }
       }
       postPlaylist()
+      setIsOpen(false)
     }
   };
   return (
@@ -179,6 +181,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
           <div className="flex mt-5 flex-col items-center">
             <p>Добавить трек:</p>
             <select ref={musicSelectRef} onInput={musicSelectHandler}>
+                <option value={'nothing'}>Выберите трек</option>
               {localMusic.map((music) => (
                 <option value={music.ID}>{music.title}</option>
               ))}

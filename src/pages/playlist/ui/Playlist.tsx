@@ -41,9 +41,8 @@ export const Playlist = () => {
     const body = await res.json()
     if (!res.ok) {
         alert(body.error)
-    } else {
-        navigate('/library')
     }
+    navigate('/library')
   }
 
   return (
