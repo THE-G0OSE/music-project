@@ -11,6 +11,7 @@ import { FaTrashCan } from "react-icons/fa6";
 import { userSlice } from "../../../app/store/userSlice";
 import { currentMusicSlice } from "../../../app/store/currentMusicSlice";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { api } from "../../../shared/configs/apiPath";
 
 export const MusicPage = () => {
   const { musicId } = useParams();
@@ -31,7 +32,7 @@ export const MusicPage = () => {
 
         const res = await musicSl.fetchOneMusic(musicId!);
 
-        if (isMounted) {
+        if (isMounted && res) {
           setMusic({
             title: res.title,
             author: res.author,
@@ -60,7 +61,7 @@ export const MusicPage = () => {
     };
   }, [musicId, musicSl]);
   const fetchComments = async (isMounted: boolean) => {
-    const res = await fetch("http://localhost:3200/comments/music/" + music!.ID);
+    const res = await fetch(api + "comments/music/" + music!.ID);
     const body = await res.json();
     if (res.ok && isMounted) {
       if (body.comments == null) {
@@ -83,7 +84,7 @@ export const MusicPage = () => {
 
   const deleteButtonClickHandler = () => {
     const deleteFetch = async () => {
-      const res = await fetch("http://localhost:3200/media/get/" + music!.ID, {
+      const res = await fetch(api + "media/delete/" + music!.ID, {
         method: "DELETE",
       });
       if (!res.ok) {
@@ -91,17 +92,14 @@ export const MusicPage = () => {
       }
     };
     deleteFetch();
-    navigate("/library");
+    setTimeout(() => {navigate("/library")}, 200);
   };
 
   const likeButtonClickHandler = () => {
     if (!user!.likes.includes(String(music!.ID))) {
       const like = async () => {
         const res = await fetch(
-          "http://localhost:3200/media/like/" +
-            music!.ID +
-            "/" +
-            user!.username,
+          api + "media/like/" + music!.ID + "/" + user!.username,
           { method: "PUT" }
         );
         if (!res.ok) {
@@ -114,10 +112,7 @@ export const MusicPage = () => {
     } else {
       const unlike = async () => {
         const res = await fetch(
-          "http://localhost:3200/media/unlike/" +
-            music!.ID +
-            "/" +
-            user!.username,
+          api + "media/unlike/" + music!.ID + "/" + user!.username,
           { method: "PUT" }
         );
         if (!res.ok) {
@@ -133,8 +128,8 @@ export const MusicPage = () => {
   const playButtonClickHandler = () => {
     currentMusic.setMusic(music!);
   };
-  const postComment = async (comment) => {
-    const res = await fetch("http://localhost:3200/comments", {
+  const postComment = async (comment:{content: string; username: string; music_id: string}) => {
+    const res = await fetch(api + "comments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -157,7 +152,7 @@ export const MusicPage = () => {
     postComment(comment);
     console.log(comment);
     commentRef.current!.value = "";
-    setTimeout(() => fetchComments(true), 100)
+    setTimeout(() => fetchComments(true), 100);
   };
 
   if (loading)
@@ -180,7 +175,7 @@ export const MusicPage = () => {
           <div className="size-60 rounded-2xl shrink-0 overflow-hidden">
             <img
               className="size-full object-cover"
-              src={"http://localhost:3200/" + music.cover_image}
+              src={api + music.cover_image}
             />
           </div>
           {music.username === user?.username ? (

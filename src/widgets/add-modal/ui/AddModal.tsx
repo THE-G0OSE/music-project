@@ -1,10 +1,11 @@
-import React, { FormEvent, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PiFilePlusBold } from "react-icons/pi";
 import { userSlice } from "../../../app/store/userSlice";
 import { musicSlice } from "../../../app/store/musicSlice";
 import { genres } from "../../../shared/configs/genre";
 import { IMusic } from "../../../shared/mocks/musicMock";
+import { api } from "../../../shared/configs/apiPath";
 
 interface IProps {
   setIsOpen: (arg: boolean) => void;
@@ -35,14 +36,14 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
     formState: { errors },
   } = useForm<IForm>();
 
-  const imageInputHandler = (e: FormEvent<HTMLInputElement>) => {
-    const file = e.target.files[0];
+  const imageInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files![0];
     const img = URL.createObjectURL(file);
     setImageSrc(img);
   };
 
-  const musicInputHandler = (e) => {
-    setMusicName(e.target.files[0].name);
+  const musicInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMusicName(e.target.files![0].name);
   };
 
   const musicSelectHandler = () => {
@@ -51,52 +52,52 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
       ...musicArr,
       localMusic.find((music) => music.ID == musicSelectRef.current!.value)!,
     ]);
-    musicSelectRef.current!.value = 'nothing'
+    musicSelectRef.current!.value = "nothing";
   };
 
   const submity = async (data: IForm) => {
     if (type === "music") {
-    const formData = new FormData();
-    formData.append("image", data.image[0]);
-    formData.append("title", data.title);
-    formData.append("author", data.author);
+      const formData = new FormData();
+      formData.append("image", data.image[0]);
+      formData.append("title", data.title);
+      formData.append("author", data.author);
       formData.append("music", data.music[0]);
       formData.append("username", user!.username);
       formData.append("genre", data.genre);
-    const res = await fetch("http://localhost:3200/media/uploadtrack", {
-      method: "POST",
-      body: formData,
-    });
-    const body = await res.json();
-    if (res.status !== 200) {
-      alert(body.error);
-      return null;
-    }
-    addMusic(body.music);
-    fetchMusic(user!.username);
-    setIsOpen(false);
-    } else { 
+      const res = await fetch(api + "media/uploadtrack", {
+        method: "POST",
+        body: formData,
+      });
+      const body = await res.json();
+      if (res.status !== 200) {
+        alert(body.error);
+        return null;
+      }
+      addMusic(body.music);
+      fetchMusic(user!.username);
+      setIsOpen(false);
+    } else {
       const body = {
         title: data.title,
         author: data.author,
         music: musicArr.map((music) => music.ID.toString()),
         username: user!.username,
-      }
+      };
       const postPlaylist = async () => {
-        const res = await fetch('http://localhost:3200/playlists/' + user!.username, {
-          method: 'POST',
+        const res = await fetch(api + "playlists/" + user!.username, {
+          method: "POST",
           headers: {
-            "Content-Type": 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(body),
-        })
-        const resBody = await res.json()
+        });
+        const resBody = await res.json();
         if (!res.ok) {
-          alert(resBody.error)
+          alert(resBody.error);
         }
-      }
-      postPlaylist()
-      setIsOpen(false)
+      };
+      postPlaylist();
+      setIsOpen(false);
     }
   };
   return (
@@ -109,7 +110,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
         onSubmit={handleSubmit(submity)}
         className="bg-white py-8 rounded-xl px-10 flex flex-col items-center"
       >
-        <label className={type === 'playlist' ? 'hidden' : ''}>
+        <label className={type === "playlist" ? "hidden" : ""}>
           <div className="flex bg-slate-300 jusity-center items-center rounded-2xl overflow-hidden h-100 w-100">
             <img
               src={imageSrc ? imageSrc : "alo"}
@@ -181,7 +182,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
           <div className="flex mt-5 flex-col items-center">
             <p>Добавить трек:</p>
             <select ref={musicSelectRef} onInput={musicSelectHandler}>
-                <option value={'nothing'}>Выберите трек</option>
+              <option value={"nothing"}>Выберите трек</option>
               {localMusic.map((music) => (
                 <option value={music.ID}>{music.title}</option>
               ))}

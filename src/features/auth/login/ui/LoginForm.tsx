@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { userSlice, type User } from "../../../../app/store/userSlice";
+import { api } from "../../../../shared/configs/apiPath";
 
 interface IProps {
   setAuthPhase: (arg: string) => void;
@@ -25,7 +26,7 @@ export const LoginForm: React.FC<IProps> = ({ setAuthPhase }) => {
   };
 
   const submitHandler = async (data: IForm) => {
-    const response: User | Response | null = await fetch('http://localhost:3200/users/login', {
+    const response = await fetch(api + 'users/login', {
       method: 'POST',
       headers: {
         "Content-Type": 'application/json',
@@ -55,6 +56,8 @@ export const LoginForm: React.FC<IProps> = ({ setAuthPhase }) => {
       likes: res.likes != null ? res.likes : [],
       playlists: res.playlists != null ? res.playlists : [],
       music: res.music != null ? res.music : [],
+      genre: res.genre,
+      comments: res.comments != null ? res.comments : [],
     } : null)
   };
 

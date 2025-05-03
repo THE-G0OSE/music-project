@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { api } from "../../../../shared/configs/apiPath";
 
 interface IProps {
   setAuthPhase: (arg: string) => void;
@@ -35,7 +36,7 @@ export const RegisterForm: React.FC<IProps> = ({ setAuthPhase }) => {
       });
     } else {
       clearErrors("passwordRep");
-      fetch('http://localhost:3200/users', {
+      fetch(api + 'users', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"

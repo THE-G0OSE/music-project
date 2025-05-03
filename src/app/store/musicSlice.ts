@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { IMusic } from "../../shared/mocks/musicMock";
+import { api } from "../../shared/configs/apiPath";
 
 interface IMusicSlice {
   localMusic: IMusic[];
@@ -7,7 +8,7 @@ interface IMusicSlice {
   addLocalMusic: (music: IMusic) => void;
   removeLocalMusic: (id: string) => void;
   fetchMusic: (username: string) => void;
-  fetchOneMusic: (id: string) => Promise<IMusic>
+  fetchOneMusic: (id: string) => Promise<IMusic | undefined>;
 }
 
 export const musicSlice = create<IMusicSlice>((set) => ({
@@ -26,7 +27,7 @@ export const musicSlice = create<IMusicSlice>((set) => ({
     }));
   },
   fetchMusic: async (username) => {
-    const res = await fetch("http://localhost:3200/users/getMusic", {
+    const res = await fetch(api + "users/getMusic", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,20 +44,21 @@ export const musicSlice = create<IMusicSlice>((set) => ({
     }
   },
   fetchOneMusic: async (id) => {
-    const res = await fetch('http://localhost:3200/media/get/' + id)
-    if (!res.ok) {
-        alert('something went wrong')
+    const res = await fetch(api + "media/get/" + id);
+    const body = await res.json();
+    if (!res.ok || !body) {
+      alert("something went wrong");
     } else {
-      const body = await res.json()
-      console.log(body.music)
-      return {
+      console.log(body.music);
+      const music = {
         ID: body.music.ID,
         path: body.music.path,
         title: body.music.title,
         author: body.music.author,
         cover_image: body.music.cover_image,
         username: body.music.username,
-      }
+      };
+      return music as IMusic;
     }
-  }
+  },
 }));

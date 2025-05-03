@@ -1,6 +1,7 @@
 import { BiLogOut } from "react-icons/bi";
 import { userSlice } from "../../../app/store/userSlice";
 import { genres } from "../../../shared/configs/genre";
+import { api } from "../../../shared/configs/apiPath";
 
 export const ProfileInfo = () => {
   const currentUser = userSlice();
@@ -9,16 +10,16 @@ export const ProfileInfo = () => {
     currentUser.resetUser();
   };
 
-  const imageUploadHandler = async (e: InputEvent) => {
+  const imageUploadHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
-    const file = e.target!.files[0];
+    const file = e.target.files![0];
     if (!file) {
       alert("file not supported");
       return null;
     }
     formData.append("image", file);
     formData.append("username", currentUser.user!.username);
-    const imagePath = await fetch("http://localhost:3200/media/uploadimage", {
+    const imagePath = await fetch(api + "media/uploadimage", {
       method: "POST",
       body: formData,
     });
@@ -26,11 +27,11 @@ export const ProfileInfo = () => {
     currentUser.updateImage(data.path);
   };
 
-  const genreInputHandler = (e) => {
+  const genreInputHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const formData = new FormData()
     formData.append("genre", e.target.value)
     const updateGenre = async () => {
-      const res = await fetch('http://localhost:3200/users/' + currentUser.user!.username, {
+      const res = await fetch(api + 'users/' + currentUser.user!.username, {
         method: 'PUT',
         body: formData
       })
@@ -63,7 +64,7 @@ export const ProfileInfo = () => {
                 <div className="size-60">
                   <img
                     className="size-full object-cover"
-                    src={"http://localhost:3200/" + currentUser.user.image}
+                    src={api + currentUser.user.image}
                   />
                 </div>
                 <input

@@ -56,7 +56,7 @@ export const Layout = () => {
         variants={navbarVar}
         initial="hidden"
         animate="show"
-        className="bg-white md:text-[1.5rem] flex min-md:flex-col min-md:justify-start items-center justify-stretch fixed bottom-3 min-md:bottom-0 left-[5%] min-md:left-0 shadow shadow-black shadow-md w-[90%] rounded-full min-md:rounded-none min-md:w-15 min-md:h-full h-10"
+        className="bg-white md:text-[1.5rem] flex min-md:flex-col min-md:justify-start items-center justify-stretch fixed bottom-3 min-md:bottom-0 left-[5%] min-md:left-0 shadow-black shadow-md w-[90%] rounded-full min-md:rounded-none min-md:w-15 min-md:h-full h-10"
       >
         <NavLink to="/">
           <div

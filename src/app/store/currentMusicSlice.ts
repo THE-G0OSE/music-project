@@ -10,8 +10,8 @@ export const currentMusicSlice = create<ISlice>((set) => ({
   setMusic: (music) => {
     set({ music: music });
     setTimeout(() => {
-      const player = document.getElementById("player");
-      if (player) {
+      const player: HTMLElement | null = document.getElementById("player");
+      if (player && player instanceof HTMLAudioElement) {
         if (player.paused) {
           player.play();
         } else {

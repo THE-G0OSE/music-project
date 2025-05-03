@@ -3,16 +3,25 @@ import { IMusic } from "../../../shared/mocks/musicMock";
 import { useNavigate, useParams } from "react-router";
 import { MusicWideCard } from "../../../entities/music/ui/MusicWideCard";
 import { FaTrashCan } from "react-icons/fa6";
+import { api } from "../../../shared/configs/apiPath";
+
+interface IPlaylist {
+  title: string;
+  author: string;
+  username: string;
+  music: number[];
+  ID: number;
+}
 
 export const Playlist = () => {
   const { id } = useParams();
-  const [playlist, setPlaylist] = useState([]);
+  const [playlist, setPlaylist] = useState<IPlaylist>();
   const [music, setMusic] = useState<IMusic[]>([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlaylist = async () => {
-      const res = await fetch("http://localhost:3200/playlists/getOne/" + id);
+      const res = await fetch(api + "playlists/getOne/" + id);
       const body = await res.json();
       if (!res.ok) {
         alert(body.error);
@@ -25,7 +34,7 @@ export const Playlist = () => {
 
   useEffect(() => {
     const fetchMusic = async () => {
-      const res = await fetch("http://localhost:3200/playlists/music/" + id);
+      const res = await fetch(api + "playlists/music/" + id);
       const body = await res.json();
       if (!res.ok) {
         alert(body.error);
@@ -34,16 +43,19 @@ export const Playlist = () => {
       }
     };
     fetchMusic();
-  }, [playlist]);
+  }, [playlist, id]);
 
   const deleteHandler = async () => {
-    const res = await fetch('http://localhost:3200/playlists/' + playlist.ID + "/" + playlist.username, {method: "DELETE"})
-    const body = await res.json()
+    const res = await fetch(
+      api + "playlists/" + playlist!.ID + "/" + playlist!.username,
+      { method: "DELETE" }
+    );
+    const body = await res.json();
     if (!res.ok) {
-        alert(body.error)
+      alert(body.error);
     }
-    navigate('/library')
-  }
+    navigate("/library");
+  };
 
   return (
     playlist &&
@@ -53,12 +65,10 @@ export const Playlist = () => {
           <div className="size-80 overflow-hidden rounded-2xl ">
             <img
               className="size-full object-cover"
-              src={
-                "http://localhost:3200/" + music[music.length - 1].cover_image
-              }
+              src={api + music[music.length - 1].cover_image}
             />
           </div>
-          <button onClick={deleteHandler} className='text-[6rem] text-red-500'>
+          <button onClick={deleteHandler} className="text-[6rem] text-red-500">
             <FaTrashCan />
           </button>
         </div>

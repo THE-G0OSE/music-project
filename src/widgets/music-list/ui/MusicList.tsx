@@ -21,13 +21,11 @@ export const MusicList: React.FC<IProps> = ({ type }) => {
   };
 
   const [music, setMusic] = useState<IMusic[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
     const fetchMusic = async () => {
       try {
-        setLoading(true);
         const res = await fetch(requrl());
         const body = await res.json();
 
@@ -38,17 +36,13 @@ export const MusicList: React.FC<IProps> = ({ type }) => {
         if (isMounted) {
           alert(err);
         }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
       }
     };
     fetchMusic();
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [requrl]);
 
   return (
     <div className="h-60 w-[100vw] px-8 min-md:w-[calc(100vw-80px)] overflow-x-scroll">

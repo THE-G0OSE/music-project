@@ -14,7 +14,7 @@ export const MusicWideCard:React.FC<IProps> = ({music}) => {
   const currentMusic = currentMusicSlice()
   const navigate = useNavigate()
 
-  const playMusicHandler = (e) => {
+  const playMusicHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     currentMusic.setMusic(music) 
   }
