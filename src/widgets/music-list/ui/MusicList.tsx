@@ -12,11 +12,11 @@ export const MusicList: React.FC<IProps> = ({ type }) => {
   const requrl = () => {
     switch (type) {
       case "new":
-        return "http://localhost:3200/media/getNew";
+        return "http://thegoose-test.ru:3200/media/getNew";
       case "recomended":
-        return "http://localhost:3200/media/getRec/" + (user ? user.username : '');
+        return "http://thegoose-test.ru:3200/media/getRec/" + (user ? user.username : '');
       case "popular":
-        return "http://localhost:3200/media/getPop";
+        return "http://thegoose-test.ru:3200/media/getPop";
     }
   };
 
@@ -42,7 +42,7 @@ export const MusicList: React.FC<IProps> = ({ type }) => {
     return () => {
       isMounted = false;
     };
-  }, [requrl]);
+  }, []);
 
   return (
     <div className="h-60 w-[100vw] px-8 min-md:w-[calc(100vw-80px)] overflow-x-scroll">

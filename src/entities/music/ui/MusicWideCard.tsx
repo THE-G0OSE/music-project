@@ -21,7 +21,7 @@ export const MusicWideCard:React.FC<IProps> = ({music}) => {
 
   return (
     <div onClick={() => navigate('/music/' + ID)} className='flex gap-2 w-full cursor-pointer h-30'>
-        <div className='w-30 h-30 shrink-0 rounded-xl overflow-hidden'><img className='size-full object-cover' src={"http://localhost:3200/" + cover_image}/></div>
+        <div className='w-30 h-30 shrink-0 rounded-xl overflow-hidden'><img className='size-full object-cover' src={"http://thegoose-test.ru:3200/" + cover_image}/></div>
         <div className='h-full w-full flex flex-col justify-evenly'>
             <p className='font-bold text-[1.5rem]'>{title}</p>
             <p className='text-slate-400 text-[1.2rem]'>{`${author}`}</p>
