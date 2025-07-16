@@ -1,13 +1,13 @@
 import { FaHome, FaMusic } from "react-icons/fa";
 import { NavLink, Outlet, useLocation } from "react-router";
-import { motion } from "motion/react";
+import { motion, Variants } from "motion/react";
 import { Player } from "../../player/ui/Player";
 import { CgProfile } from "react-icons/cg";
 
 export const Layout = () => {
   const location = useLocation();
 
-  const navbarVar = {
+  const navbarVar: Variants = {
     hidden:
       window.innerWidth >= 768
         ? {
