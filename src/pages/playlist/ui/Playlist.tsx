@@ -21,7 +21,7 @@ export const Playlist = () => {
 
   useEffect(() => {
     const fetchPlaylist = async () => {
-      const res = await fetch(api + "playlists/getOne/" + id);
+      const res = await fetch(api + "playlists/getOne/" + id, {referrerPolicy: 'no-referrer'});
       const body = await res.json();
       if (!res.ok) {
         alert(body.error);
@@ -34,7 +34,7 @@ export const Playlist = () => {
 
   useEffect(() => {
     const fetchMusic = async () => {
-      const res = await fetch(api + "playlists/music/" + id);
+      const res = await fetch(api + "playlists/music/" + id, {referrerPolicy: "no-referrer"});
       const body = await res.json();
       if (!res.ok) {
         alert(body.error);
@@ -48,7 +48,7 @@ export const Playlist = () => {
   const deleteHandler = async () => {
     const res = await fetch(
       api + "playlists/" + playlist!.ID + "/" + playlist!.username,
-      { method: "DELETE" }
+      { method: "DELETE", referrerPolicy: "no-referrer" }
     );
     const body = await res.json();
     if (!res.ok) {

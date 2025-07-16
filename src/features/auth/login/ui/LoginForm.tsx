@@ -28,6 +28,7 @@ export const LoginForm: React.FC<IProps> = ({ setAuthPhase }) => {
   const submitHandler = async (data: IForm) => {
     const response = await fetch(api + 'users/login', {
       method: 'POST',
+      referrerPolicy: "no-referrer",
       headers: {
         "Content-Type": 'application/json',
       },

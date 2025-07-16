@@ -21,7 +21,7 @@ export const PlaylistCard: React.FC<IProps> = ({
 
   useEffect(() => {
     const fetchMusic = async () => {
-        const res = await fetch(api + 'media/get/' + music[0])
+        const res = await fetch(api + 'media/get/' + music[0], {referrerPolicy: 'no-referrer'})
         const body = await res.json()
         if (!res.ok){
             alert(body.error)

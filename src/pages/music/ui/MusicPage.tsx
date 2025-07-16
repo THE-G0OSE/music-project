@@ -61,7 +61,7 @@ export const MusicPage = () => {
     };
   }, [musicId, musicSl]);
   const fetchComments = async (isMounted: boolean) => {
-    const res = await fetch(api + "comments/music/" + music!.ID);
+    const res = await fetch(api + "comments/music/" + music!.ID, {referrerPolicy: "no-referrer"});
     const body = await res.json();
     if (res.ok && isMounted) {
       if (body.comments == null) {
@@ -85,6 +85,7 @@ export const MusicPage = () => {
   const deleteButtonClickHandler = () => {
     const deleteFetch = async () => {
       const res = await fetch(api + "media/delete/" + music!.ID, {
+        referrerPolicy: 'no-referrer',
         method: "DELETE",
       });
       if (!res.ok) {
@@ -100,7 +101,7 @@ export const MusicPage = () => {
       const like = async () => {
         const res = await fetch(
           api + "media/like/" + music!.ID + "/" + user!.username,
-          { method: "PUT" }
+          { method: "PUT", referrerPolicy: 'no-referrer' }
         );
         if (!res.ok) {
           alert("something went wrong");
@@ -113,7 +114,7 @@ export const MusicPage = () => {
       const unlike = async () => {
         const res = await fetch(
           api + "media/unlike/" + music!.ID + "/" + user!.username,
-          { method: "PUT" }
+          { method: "PUT", referrerPolicy: 'no-referrer' }
         );
         if (!res.ok) {
           alert("something went wrong");
@@ -131,6 +132,7 @@ export const MusicPage = () => {
   const postComment = async (comment:{content: string; username: string; music_id: string}) => {
     const res = await fetch(api + "comments", {
       method: "POST",
+      referrerPolicy: "no-referrer",
       headers: {
         "Content-Type": "application/json",
       },

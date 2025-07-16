@@ -15,7 +15,7 @@ export const Profile = () => {
     let isMounted = true;
     if (user) {
       const fetchComments = async () => {
-        const res = await fetch(api + "comments/user/" + user.username);
+        const res = await fetch(api + "comments/user/" + user.username, {referrerPolicy: "no-referrer"});
         const body = await res.json();
         if (res.ok && isMounted) {
           if (body.comments) {

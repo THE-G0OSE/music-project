@@ -38,6 +38,7 @@ export const RegisterForm: React.FC<IProps> = ({ setAuthPhase }) => {
       clearErrors("passwordRep");
       fetch(api + 'users', {
         method: 'POST',
+        referrerPolicy: 'no-referrer',
         headers: {
           "Content-Type": "application/json"
         },

@@ -26,7 +26,7 @@ export const MusicList: React.FC<IProps> = ({ type }) => {
     let isMounted = true;
     const fetchMusic = async () => {
       try {
-        const res = await fetch(requrl());
+        const res = await fetch(requrl(), {referrerPolicy: "no-referrer"});
         const body = await res.json();
 
         if (isMounted && res.ok) {

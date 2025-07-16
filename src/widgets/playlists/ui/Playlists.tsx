@@ -9,7 +9,7 @@ export const Playlists = () => {
 
   useEffect(() => {
     const fetchPlaylists = async () => {
-      const res = await fetch(api + "playlists/" + user!.username);
+      const res = await fetch(api + "playlists/" + user!.username, {referrerPolicy: "no-referrer"});
       const body = await res.json();
       if (!res.ok) {
         alert(body.error);

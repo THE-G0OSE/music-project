@@ -21,6 +21,7 @@ export const ProfileInfo = () => {
     formData.append("username", currentUser.user!.username);
     const imagePath = await fetch(api + "media/uploadimage", {
       method: "POST",
+      referrerPolicy: "no-referrer",
       body: formData,
     });
     const data = await imagePath.json();
@@ -32,6 +33,7 @@ export const ProfileInfo = () => {
     formData.append("genre", e.target.value)
     const updateGenre = async () => {
       const res = await fetch(api + 'users/' + currentUser.user!.username, {
+        referrerPolicy: "no-referrer",
         method: 'PUT',
         body: formData
       })

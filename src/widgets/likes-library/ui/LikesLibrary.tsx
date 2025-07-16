@@ -13,7 +13,7 @@ export const LikesLibrary = () => {
     if (user) {
       setLoading(true);
       const fetchMusic = async () => {
-        const res = await fetch(api + "users/getLikes/" + user!.username);
+        const res = await fetch(api + "users/getLikes/" + user!.username, {referrerPolicy: "no-referrer"});
         if (!res.ok) {
           alert("something went wrong");
           setMusic([]);

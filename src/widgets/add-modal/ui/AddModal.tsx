@@ -65,6 +65,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
       formData.append("username", user!.username);
       formData.append("genre", data.genre);
       const res = await fetch(api + "media/uploadtrack", {
+        referrerPolicy: "no-referrer",
         method: "POST",
         body: formData,
       });
@@ -85,6 +86,7 @@ export const AddModal: React.FC<IProps> = ({ setIsOpen, type }) => {
       };
       const postPlaylist = async () => {
         const res = await fetch(api + "playlists/" + user!.username, {
+          referrerPolicy:"no-referrer",
           method: "POST",
           headers: {
             "Content-Type": "application/json",
