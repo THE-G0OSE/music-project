@@ -71,7 +71,7 @@ jobs:
         run: npm run build
 
       - name: deploy
-        uses: pearceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.github_token }}
           publish_dir: ./dist
