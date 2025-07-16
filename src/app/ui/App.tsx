@@ -8,7 +8,7 @@ import { Playlist } from "../../pages/playlist/ui/Playlist"
 
 export const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/music-project">
 
       <Routes>
 
